@@ -1,0 +1,9 @@
+{
+  "ok": false,
+  "form": {
+    "errors": {
+      "username": "I'm pretty sure this user does not exist in our databases.",
+      "password": "And your password is probably incorrect anyway."
+    }
+  }
+}
