@@ -8,5 +8,6 @@
      "allowSyntheticDefaultImports": true,
      "experimentalDecorators": true
   },
+  "checkJs": true,
   "module": "esnext"
 }

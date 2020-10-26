@@ -1,9 +1,25 @@
 import luri, { Component } from "../lib/luri.js";
 import Animatable from "./animatable.js";
 
-export default class Content extends Animatable(
-  Component()
-) {
+class ContentComponent extends Component() {}
+class AnimatableContentComponent extends Animatable(ContentComponent) {}
+
+/**
+ * Currently, intelliSense has trouble picking up all members of 
+ * a composite class. In the light of which, prioritize showing 
+ * members of the Component mixin as they also contain the HTMLElement
+ * members. Inclusion of Animatable members is possible via the 
+ * implements anotation however that only works on the class definition.
+ * 
+ * Opened an issue about it:
+ * https://github.com/microsoft/vscode/issues/109375
+ */
+
+/**
+ * @extends {ContentComponent}
+ * @implements {AnimatableContentComponent}
+ */
+class Content extends AnimatableContentComponent {
 
   // static parentx() {
   //   return "div";
@@ -88,3 +104,5 @@ export default class Content extends Animatable(
   }
 
 }
+
+export default Content;
