@@ -47,7 +47,7 @@ export default class DemosIndex extends Content {
     return {
       class: "flex-1 justify-center px-4 flex flex-wrap",
       html: [
-        ["Forms", ["Controls", "Handling Responses"]],
+        ["Input/Output", ["Controls", "Handling Responses", "Modals"]],
         ["Fetching content", ["Pagination", "Infinite scroll"]],
         ["Access Control", ["Arbitrary rules", "Require login"]],
         ["Error handling", ["Default error", "Custom error"]],

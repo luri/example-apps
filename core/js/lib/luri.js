@@ -231,110 +231,126 @@ export function registerListeners(constructor) {
 
 // Make sure component classes are generated only once per HTMLElement type
 let cClassCache = new Map();
+
+function MixinComponent(base) {
+  /**
+   * @extends HTMLElement
+   */
+  class Component extends base {
+
+    static dgd() {}
+
+    /**
+     * Must return custom element nodeName
+     * first argument to customElements.define
+     */
+    static namex() {
+      return this.name.replace(/([a-zA-Z])(?=[A-Z])/g, '$1-').toLowerCase();
+    }
+
+    /**
+     * Must return custom element's parent nodeName
+     */
+    static parentx() {
+      return null;
+    }
+
+    /**
+     * Names of DOM event handlers to be added to each instance.
+     * Populated automatically in the register() function.
+     */
+    static handlersx = new Set;
+
+    eventsx = {};
+
+    constructor(props) {
+      super();
+
+      if ((props = this.constructx(props))) {
+        luri.apply(this, props, this.namespaceURI);
+      }
+
+      let listeners = this.listenersx();
+
+      for (let event in listeners) {
+        this.addListenerx(event, listeners[event]);
+      }
+
+      if (!this.ninjax()) {
+        this.classList.add(luri.CLASS);
+      }
+
+      // Add DOM listeners because prototype functions 
+      // as handlers do not work out of the box
+      this.constructor.handlersx.forEach(prop => {
+        this.addEventListener(prop.substring(2).toLowerCase(), this.constructor.prototype[prop]);
+      });
+    }
+
+    /**
+     * if value is present then sets attribute x equal to value
+     * if not and x is string then returns attribute x
+     * if x is object assigns values to attributes from keys 
+     * @param {string|Object} x 
+     * @param {string} value
+     */
+    attrx(x, value) {
+      if (value) {
+        this.setAttribute(x, value);
+        return this;
+      } else if (typeof x === "string") {
+        return this.getAttribute(x);
+      } else if (x) {
+        for (let a in x) {
+          this.setAttribute(a, x[a]);
+        }
+        return this;
+      }
+    }
+
+    /**
+     * If true the component will not receive luri events
+     */
+    ninjax() {
+      return false;
+    }
+
+    constructx(props) {
+      return props;
+    }
+
+    /**
+     * Utility method for defining listeners 
+     */
+    listenersx() {
+      return {}
+    }
+
+    getListenersx(event) {
+      return this.eventsx[event] || [];
+    }
+
+    addListenerx(event, listener) {
+      let listeners = this.getListenersx(event)
+      listeners.push(listener);
+      this.eventsx[event] = listeners;
+    }
+
+    removeListenerx(event, listener) {
+      this.eventsx[event] = this.getListenersx(event).filter(l => l !== listener);
+    }
+  }
+
+  return Component;
+}
+
+/**
+ * @mixin
+ * @returns {ReturnType<MixinComponent>}
+ */
 export function Component(base = HTMLElement) {
   if (!cClassCache.has(base)) {
-    cClassCache.set(base, class extends base {
-
-      /**
-       * Must return custom element nodeName
-       * first argument to customElements.define
-       */
-      static namex() {
-        return this.name.replace(/([a-zA-Z])(?=[A-Z])/g, '$1-').toLowerCase();
-      }
-
-      /**
-       * Must return custom element's parent nodeName
-       */
-      static parentx() {
-        return null;
-      }
-
-      /**
-       * Names of DOM event handlers to be added to each instance.
-       * Populated automatically in the register() function.
-       */
-      static handlersx = new Set;
-
-      eventsx = {};
-
-      constructor(props) {
-        super();
-
-        if ((props = this.constructx(props))) {
-          luri.apply(this, props, this.namespaceURI);
-        }
-
-        let listeners = this.listenersx();
-
-        for (let event in listeners) {
-          this.addListenerx(event, listeners[event]);
-        }
-
-        if (!this.ninjax()) {
-          this.classList.add(luri.CLASS);
-        }
-
-        // Add DOM listeners because prototype functions 
-        // as handlers do not work out of the box
-        this.constructor.handlersx.forEach(prop => {
-          this.addEventListener(prop.substring(2).toLowerCase(), this.constructor.prototype[prop]);
-        });
-      }
-
-      /**
-       * if value is present then sets attribute x equal to value
-       * if not and x is string then returns attribute x
-       * if x is object assigns values to attributes from keys 
-       * @param {string|Object} x 
-       * @param {string} value
-       */
-      attrx(x, value) {
-        if (value) {
-          this.setAttribute(x, value);
-          return this;
-        } else if (typeof x === "string") {
-          return this.getAttribute(x);
-        } else if (x) {
-          for (let a in x) {
-            this.setAttribute(a, x[a]);
-          }
-          return this;
-        }
-      }
-
-      /**
-       * If true the component will not receive luri events
-       */
-      ninjax() {
-        return false;
-      }
-
-      constructx(props) {
-        return props;
-      }
-
-      /**
-       * Utility method for defining listeners 
-       */
-      listenersx() {
-        return {}
-      }
-
-      getListenersx(event) {
-        return this.eventsx[event] || [];
-      }
-
-      addListenerx(event, listener) {
-        let listeners = this.getListenersx(event)
-        listeners.push(listener);
-        this.eventsx[event] = listeners;
-      }
-
-      removeListenerx(event, listener) {
-        this.eventsx[event] = this.getListenersx(event).filter(l => l !== listener);
-      }
-    });
+    cClassCache.set(base, MixinComponent(base));
   }
 
   return cClassCache.get(base);

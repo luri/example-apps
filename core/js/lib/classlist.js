@@ -1,3 +1,8 @@
+/**
+ * Parse a multi-line string containing class names into a single line
+ * and remove duplicate class names.
+ * @param {string} classes 
+ */
 export function shrink(classes) {
   return classes.trim().replace(/(?:\n+\s+|\s+)/g, " ").split(" ").filter((v, i, a) => a.indexOf(v) === i).join(" ");
 }
