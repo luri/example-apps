@@ -11,6 +11,6 @@ I've spent a week's worth of after work hours to prepare a small showcase app wh
 
 As stated there, depending on how bad it gets trashed, I might document it and begin support.
 
-[Open showcase](https://luri.github.io/app/showcase/#/about).
+[Open showcase](https://luri.github.io/example-apps/showcase/#/about).
 
 
