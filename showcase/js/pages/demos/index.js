@@ -52,7 +52,8 @@ export default class DemosIndex extends Content {
         ["Access Control", ["Arbitrary rules", "Require login"]],
         ["Error handling", ["Default error", "Custom error"]],
         ["Data", ["Binding"]],
-        ["Shadow DOM", ["Shadow Component"]]
+        ["Shadow DOM", ["Shadow Component"]],
+        ["Example Apps", ["Apps"]]
       ].map(([title, words]) => this.listx(title, words)),
     }
   }
