@@ -9,6 +9,7 @@ let docroot = document.body;
 export default class Model {
 
   static anyselector = "X";
+  static htmlx = false;
 
   id = id++;
   target = null;
@@ -16,12 +17,11 @@ export default class Model {
 
   static handlerx = {
     get: function (model, prop, receiver) {
-      if (prop === model.constructor.anyselector)
-        prop = "*";
-      return model.target[prop] instanceof Object ? model.target[prop] : new ModelProperty(model, prop);
+      return model.get(prop);
     },
     set: function (model, property, value) {
-      model.target[property] = value;
+      model.set(property, value);
+
       for (let prop of [property, "*"]) {
         for (let instance of model.getCollection(prop)) {
           for (let binding of instance.bindingsx) {
@@ -47,6 +47,18 @@ export default class Model {
 
   value(prop) {
     return this.target[prop];
+  }
+
+  get(prop) {
+    if (prop === this.constructor.anyselector)
+      prop = "*";
+    return this.target[prop] instanceof Object ? this.target[prop] : new ModelProperty(this, prop);
+  }
+
+  set(property, value) {
+    this.target[property] = value;
+
+    return this;
   }
 
   getCollection(property) {
@@ -95,6 +107,10 @@ class ModelProperty {
   }
 
   toString() {
+    return this.binding.model.value(this.html);
+  }
+
+  valueOf() {
     return this.binding.model.value(this.html);
   }
 }
@@ -156,7 +172,7 @@ export class DataBinding {
    */
   renderhtml(value, element) {
     if (typeof value === "string") {
-      if (value.indexOf("</") > 0 || value.indexOf("/>") > 0) {
+      if (this.model.constructor.htmlx) {
         element.innerHTML = "";
         element.insertAdjacentHTML("beforeend", value);
       } else {

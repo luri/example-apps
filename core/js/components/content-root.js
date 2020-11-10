@@ -248,9 +248,8 @@ export default class ContentRoot extends Component() {
    */
   renderx(content) {
     let contentRoot = this.getContentRootElementx();
-    let current = contentRoot.firstChild;
-
-    return smoothie(content, current, contentRoot);
+    
+    return smoothie(content, contentRoot.firstChild);
   }
 
   renderedx(route, path, query, content, root, queue) {

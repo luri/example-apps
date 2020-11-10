@@ -1,0 +1,12 @@
+
+.animate__animated {
+  --animate-duration: 0.25s;
+  --animate-delay: 0s;
+
+  animation-timing-function: ease;
+}
+
+.todo.flex {
+  animation-duration: 0.75s;
+  transition: height 0.2s ease;
+}

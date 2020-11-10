@@ -24,14 +24,12 @@ export default class Modal extends Component(Animatable(HTMLElement)) {
   /**
    * @typedef {{
    *  defaultBody?: boolean,
-   *  unclosable?: boolean
+   *  unclosable?: boolean,
+   *  background: string
    * }} ModalOptions
    * @typedef {(ModalOptions & {
    *  input?: (resolve) => any,
-   *  rejectOnClose?: boolean,
-   *  type?: string,
-   *  value?: string,
-   *  attrs?: Object
+   *  rejectOnClose?: boolean
    * })} ModalPromptOptions
    * @typedef {(ModalPromptOptions & {
    *  cancelText?: any,
@@ -61,15 +59,17 @@ export default class Modal extends Component(Animatable(HTMLElement)) {
    */
   static promptx(body, options = {}) {
     let modal = null;
-
+    
     return new Promise(async (resolve, reject) => {
+      let rejectfn = (e) => options.rejectOnClose ? reject(e) : resolve();
+
       modal = await this.openx({
         class: "text-center",
         html: [
           body,
-          options.input ? options.input(resolve, reject) : {
+          options.input ? options.input(resolve, rejectfn) : {
             node: "form",
-            html: new AppInput(null, options.type || "text", options.value || "", options.attrs || {}),
+            html: new AppInput(null),
             onsubmit: event => {
               event.preventDefault();
               resolve(event.target.elements[0].value);
@@ -78,7 +78,7 @@ export default class Modal extends Component(Animatable(HTMLElement)) {
         ]
       }, options);
 
-      modal.addEventListener("luri-modal-closed", () => options.rejectOnClose ? reject() : resolve());
+      modal.addEventListener("luri-modal-closed", rejectfn);
       // reuse options.input which has already been called
       if (options.input = modal.querySelector("input")) {
         options.input.focus();
@@ -99,7 +99,7 @@ export default class Modal extends Component(Animatable(HTMLElement)) {
           class: "flex justify-center mt-2",
           html: [
             [options.cancelText || "Cancel", ButtonSecondary, reject],
-            [options.confirmText || "Confirm", ButtonPrimary, resolve]
+            [options.confirmText || "Confirm", ButtonPrimary, () => resolve(true)]
           ].map(([def, classname, func]) => {
             return {
               node: "button",
@@ -132,10 +132,10 @@ export default class Modal extends Component(Animatable(HTMLElement)) {
     );
 
     return promise.then(result => {
-      return smoothie(result, placeholder);
-    }).then(() => {
       modal.classList.remove("t-800");
 
+      return result ? smoothie(result, placeholder) : modal.closex();
+    }).then(() => {
       return modal;
     });
   }
@@ -155,6 +155,8 @@ export default class Modal extends Component(Animatable(HTMLElement)) {
         this.dispatchEvent(new Event("luri-modal-closed"));
       });
     }
+
+    return Promise.resolve();
   }
 
   onKeyup(e) {
@@ -172,12 +174,12 @@ export default class Modal extends Component(Animatable(HTMLElement)) {
   constructx(props) {
     return {
       class: shrink(`
-        fixed top-0 left-0 w-full h-full
+        fixed top-0 left-0 w-full h-full z-50
         flex justify-center items-center
         ${props.unclosable ? "t-800" : ""}
       `),
       style: {
-        "background": this.constructor.backgroundx
+        "background": props.background || this.constructor.backgroundx
       },
       html: props.defaultBody ? {
         class: "rounded bg-gray-800 border border-gray-700 px-6 py-4",
