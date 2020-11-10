@@ -3,6 +3,12 @@ import Model from "../../../../core/js/lib/model.js";
 import { AppInput, AppRadio, AppSelect } from "../../components/input.js";
 import Example from "./example.js";
 
+class User extends Model {
+  // allow parsing html strings in model props
+  // this will sacrifice performance
+  // regardless of whether you use it or not
+  static htmlx = true;
+}
 
 export default class DataBindingDemo extends Example {
 
@@ -13,7 +19,7 @@ export default class DataBindingDemo extends Example {
   }
 
   async datax() {
-    return new Model({
+    return new User({
       name: "Steve",
       age: 25,
       gender: "male"
@@ -98,6 +104,10 @@ export default class DataBindingDemo extends Example {
                   // Method 1
                   // more performant, less readable
                   // - recommended
+                  // important - if htmlx is enabled in model, as in this case
+                  // the performance benefit greatly reduced.
+                  // This example is just to illustrate how you 
+                  // could gain the benefit if Model.htmlx was disabled.
                   "The user's name is ", STRONG(user.name), ", ",
                   user.gender.bind(v => pronouns.subjective[v]),
                   " is ", STRONG(user.age), " years old and ",
@@ -114,7 +124,7 @@ export default class DataBindingDemo extends Example {
                   // Method 2 
                   // rerenders entire string when any property changes, 
                   // converts everything to a string then parses it.
-                  // more readable
+                  // more readable, requires Model.htmlx to be enabled.
                   // - not recommended, use on your own discretion
                   user.X.bind(model =>
                     `The user's name is ${STRONG(model.name)}, ${pronouns.subjective[model.gender]} is ${STRONG(model.age)} years old and ${pronouns.possessive[model.gender]} gender is highlighted below.`

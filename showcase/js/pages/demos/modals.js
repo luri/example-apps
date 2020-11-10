@@ -1,6 +1,4 @@
-import { shrink } from "../../../../core/js/lib/classlist.js";
 import { register } from "../../../../core/js/lib/luri.js";
-import AppButton from "../../components/button.js";
 import { AppRadio } from "../../components/input.js";
 import Modal from "../../components/modal.js";
 import { ButtonSecondary } from "../../styles/common.js";
@@ -40,10 +38,8 @@ export default class ModalsExample extends Example {
           [
             "An input prompt modal",
             () => {
-              Modal.promptx("How ya doin?", {
-                rejectOnClose: true
-              }).then(response => {
-                Modal.openx(`"${response}" - You.`);
+              Modal.promptx("How ya doin?").then(response => {
+                if (response) Modal.openx(`"${response}" - You.`);
               })
             }
           ],

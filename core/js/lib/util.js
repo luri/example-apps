@@ -44,7 +44,8 @@ export function swap(element, condition, a = "", b = "") {
  * 
  * if add and remove are present then replaces remove with add  
  * if add and parent are present then appends add to parent  
- * if only remove is present then removes remove from its parent  
+ * if only remove is present then removes remove from its parent
+ * if add, remove, and parent are present then insert add before remove in parent
  * 
  * if add or remove implement Animatable their respective animations
  * will get called
@@ -55,7 +56,7 @@ export function swap(element, condition, a = "", b = "") {
  * @returns {Promise} Resolves when all animations are over
  */
 export async function smoothie(add, remove, parent) {
-  if (remove) {
+  if (remove && !add) {
     if (remove.outx) {
       await remove.outx(add);
     } else {
@@ -64,7 +65,11 @@ export async function smoothie(add, remove, parent) {
   }
   if (add) {
     if (remove) {
-      add = luri.replace(remove, add);
+      if (parent) {
+        add = luri.insert(add, parent, remove);
+      } else {
+        add = luri.replace(remove, add);
+      }
     } else {
       add = luri.append(add, parent);
     }
