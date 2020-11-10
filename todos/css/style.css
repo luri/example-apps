@@ -10,3 +10,11 @@
   animation-duration: 0.75s;
   transition: height 0.2s ease;
 }
+
+.home-page:empty::after {
+  content: attr(data-notodos);
+  display: block;
+  padding-top: 3rem;
+  font-size: 125%;
+  text-align: center;
+}

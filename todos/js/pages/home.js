@@ -37,7 +37,10 @@ export default class HomePage extends Page {
 
   propsx() {
     return {
-      class: "flex-1 mt-2"
+      class: "home-page flex-1 mt-2",
+      data: {
+        notodos: "No todos, add some!"
+      }
     }
   }
 }
