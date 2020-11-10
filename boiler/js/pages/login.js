@@ -1,6 +1,5 @@
 import auth from "../../../core/js/lib/auth.js";
 import { register } from "../../../core/js/lib/luri.js";
-import { delay } from "../../../core/js/lib/util.js";
 import AppForm from "../components/form.js";
 import { AppInput } from "../components/input.js";
 import Page from "../components/page.js";
@@ -13,29 +12,10 @@ class LoginForm extends AppForm {
     });
   }
 
-  onbeforesendx(formdata) {
-    // Mock proper server response with separate json files
-    if (formdata.get("username").toLowerCase() !== "steve") {
-      this.action = "api/login/not-steve.json";
-    } else if (formdata.get("password") !== "chickennuggets") {
-      this.action = "api/login/wrong-pass.json";
-    } else {
-      this.action = "api/login/ok.json";
-    }
-
-    // also add fake loading time to showcase form loader
-    ((o) => {
-      this.fetchx = (...x) => delay(1500).then(() => o(...x));
-    })(this.fetchx)
-
-    return formdata;
-  }
-
   constructx(props) {
     return {
-      method: "GET", // github pages returns 404 on POST
-      action: "api/login/ok.json",
-      class: "shadow-md max-w-sm mx-auto mt-8 px-6 pt-2 pb-4 border border-gray-700 rounded bg-gray-800",
+      method: "POST",
+      action: put - action - here,
       html: [
         {
           class: "text-center my-2",

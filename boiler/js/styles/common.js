@@ -1,6 +1,6 @@
 import { shrink } from "../../../core/js/lib/classlist.js";
 
-export let colors = {
+let colors = {
   primary: "purple",
   secondary: "gray",
 };
@@ -44,7 +44,25 @@ export let CheckboxInput = shrink(`
   duration-300
 `)
 
+export let TextPrimary100 = `text-${colors.primary}-100`;
+export let TextPrimary200 = `text-${colors.primary}-200`;
+export let TextPrimary300 = `text-${colors.primary}-300`;
+export let TextPrimary400 = `text-${colors.primary}-400`;
 export let TextPrimary500 = `text-${colors.primary}-500`;
+export let TextPrimary600 = `text-${colors.primary}-600`;
+export let TextPrimary700 = `text-${colors.primary}-700`;
+export let TextPrimary800 = `text-${colors.primary}-800`;
+export let TextPrimary900 = `text-${colors.primary}-900`;
+
+export let TextSecondary100 = `text-${colors.secondary}-100`;
+export let TextSecondary200 = `text-${colors.secondary}-200`;
+export let TextSecondary300 = `text-${colors.secondary}-300`;
+export let TextSecondary400 = `text-${colors.secondary}-400`;
+export let TextSecondary500 = `text-${colors.secondary}-500`;
+export let TextSecondary600 = `text-${colors.secondary}-600`;
+export let TextSecondary700 = `text-${colors.secondary}-700`;
+export let TextSecondary800 = `text-${colors.secondary}-800`;
+export let TextSecondary900 = `text-${colors.secondary}-900`;
 
 export let Button = "uppercase font-bold text-sm px-6 py-3 my-2"
 

@@ -6,10 +6,4 @@ export default class Page extends Content {
     return this.idx().replace("Page", "").replace(":", " - ");
   }
 
-  props() {
-    return {
-      class: "px-4"
-    }
-  }
-
 }

@@ -1,7 +1,5 @@
 import luri, { register } from "../../../core/js/lib/luri.js";
 import AppContentRoot from "./app-content-root.js";
-import Footer from "./footer.js";
-import Navbar from "./navbar.js";
 
 export default class Application extends AppContentRoot {
 
@@ -27,7 +25,6 @@ export default class Application extends AppContentRoot {
 
   connectedCallback() {
     // navigate home when mounted
-    // console.log("ROOT", this);
     this.navigatex();
   }
 
@@ -40,7 +37,7 @@ export default class Application extends AppContentRoot {
   }
 
   getContentRootElementx() {
-    return this.children[1];
+    return this.children[0];
   }
 
   loadx(module) {
@@ -76,20 +73,14 @@ export default class Application extends AppContentRoot {
     });
   }
 
-  onScroll() {
-    luri.emitTo([this.firstChild], "app-scroll", this.scrollTop)
-  }
-
   constructx() {
     return {
       class: "flex flex-col h-full w-full bg-gray-900 text-gray-500 overflow-y-auto overflow-x-hidden",
       html: [
-        new Navbar(),
         {
-          class: "flex justify-center flex-1 pt-16",
+          class: "flex justify-center items-center flex-1",
           html: new (this.blankContentx()),
         },
-        new Footer()
       ]
     };
   }

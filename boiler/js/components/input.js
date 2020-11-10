@@ -1,6 +1,6 @@
 import { Checkbox, Input, Radio, Select, Textarea } from "../../../core/js/components/input.js";
 import { register } from "../../../core/js/lib/luri.js";
-import { ButtonPrimary, CheckboxControl, CheckboxInput, InputControl } from "../../js/styles/common.js";
+import { ButtonPrimary, CheckboxControl, CheckboxInput, InputControl } from "../styles/common.js";
 
 
 export class AppInput extends Input {

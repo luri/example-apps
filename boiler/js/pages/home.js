@@ -36,26 +36,8 @@ export default class HomePage extends Page {
     return {
       class: "flex flex-col items-center mb-6",
       html: [
-
-        H1({
-          class: Heading,
-          html: "Luri"
-        }),
-        P({
-          class: `${HeadingParagraph} text-center`,
-          html: [
-            {
-              html: "A real native single page app"
-            },
-            {
-              class: "text-sm text-gray-700",
-              html: "As if it mattered"
-            }
-          ]
-        }),
-
         {
-          class: "w-8/12 md:w-full",
+          class: "w-8/12 md:w-full text-center",
           html: image
         }
       ]
