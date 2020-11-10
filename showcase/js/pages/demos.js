@@ -42,7 +42,7 @@ export default class DemosPage extends Page {
               onclick: () => {
                 let example = (location.hash.match(/#.demos:([\w-]+)/) || ["index"]).pop();
         
-                window.open(`https://github.com/luri/example-apps/blob/main/showcase/js/pages/demos/${example}.js#L1`)
+                window.open(`https://github.com/luri/example-apps/blob/master/showcase/js/pages/demos/${example}.js#L1`)
               }
             })
           ]
