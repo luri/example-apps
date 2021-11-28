@@ -122,7 +122,7 @@ export default class Form extends Component(HTMLFormElement) {
     if (!this.isLoadingx(this)) {
       let data = this.onbeforesendx(new FormData(this));
 
-      this.onfetchx(this.fetchx(this.action, this.method, data));
+      this.onfetchx(this.fetchx(this.getAttribute("action"), this.method, data));
     } else {
       console.log("Prevented form submission while loading");
     }
