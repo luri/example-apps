@@ -54,6 +54,8 @@ export default class HomePage extends Page {
         }
       }
     })
+
+    screen.orientation.lock('landscape');
   }
 
   contentx(models) {
