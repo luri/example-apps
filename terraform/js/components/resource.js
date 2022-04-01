@@ -37,14 +37,15 @@ export default class Resource extends Component() {
             class: "flex flex-col flex-1 h-full justify-center items-center border-2 border-gray-800 " + props.bg,
             html: [
                 {
-                    class: "flex flex-1 items-center justify-center",
+                    class: "flex flex-1 items-center justify-center w-full",
                     html: [
 
                         {
                             node: "i",
                             class: `${props.icon} fa-3x`
                         },
-                    ]
+                    ],
+                    onmouseup: () => this.modelx.amount--
                 },
 
                 {
