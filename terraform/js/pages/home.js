@@ -42,6 +42,8 @@ export default class HomePage extends Page {
 
     this.resetx();
 
+    Modal.containerx = this;
+
     Modal.promptx("", {
       input: resolve => {
         return {
