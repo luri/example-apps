@@ -42,15 +42,15 @@ export default class Resource extends Component() {
 
                         {
                             node: "i",
-                            class: `${props.icon} fa-5x`
+                            class: `${props.icon} fa-3x`
                         },
                     ]
                 },
 
                 {
-                    class: "text-5xl font-bold p-8 border-t-2 border-gray-800 w-full text-center bg-gray-600",
+                    class: "text-4xl font-bold border-t-2 border-gray-800 w-full text-center bg-gray-600",
                     html: this.modelx.amount,
-                    onclick: () => this.modelx.amount++,
+                    onmouseup: () => this.modelx.amount++,
                     oncontextmenu: async (event) => {
                         event.preventDefault();
 
@@ -61,12 +61,12 @@ export default class Resource extends Component() {
                     }
                 },
                 {
-                    class: "text-5xl font-bold p-8 bg-yellow-900 w-full text-center",
+                    class: "text-4xl font-bold bg-yellow-900 w-full text-center",
                     html: this.modelx.production,
-                    onclick: () => this.modelx.production++,
+                    onmouseup: () => this.modelx.production++,
                     oncontextmenu: async (event) => {
                         event.preventDefault();
-                       
+
                         this.modelx.production += 1 * await Modal.promptx(null, {
                             rejectOnClose: true,
                             type: "number"

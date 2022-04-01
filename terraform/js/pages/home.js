@@ -1,6 +1,6 @@
 import Modal from "../../../boiler/js/components/modal.js";
 import Page from "../../../boiler/js/components/page.js";
-import { ButtonSecondary } from "../../../boiler/js/styles/common.js";
+import { ButtonPrimary, ButtonSecondary } from "../../../boiler/js/styles/common.js";
 import ClassList from "../../../core/js/lib/classlist.js";
 import luri, { register } from "../../../core/js/lib/luri.js";
 import GenerationIndicator from "../components/generation-indicator.js";
@@ -41,6 +41,17 @@ export default class HomePage extends Page {
     });
 
     this.resetx();
+
+    Modal.promptx("", {
+      input: resolve => {
+        return {
+          node: "button",
+          class: ButtonPrimary,
+          html: "GO FULLSCREEN",
+          onclick: () => this.requestFullscreen()
+        }
+      }
+    })
   }
 
   contentx(models) {

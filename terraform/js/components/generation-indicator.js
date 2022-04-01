@@ -17,7 +17,7 @@ export default class GenerationIndicator extends Component() {
             style: "top: 50%; transform: translateY(-50%)",
             html: [
                 {
-                    class: "rounded-full text-4xl text-white bg-blue-500 font-bold px-8 py-4",
+                    class: "rounded-full text-3xl text-white bg-blue-500 font-bold px-6 py-3",
                     html: 1
                 }
             ]
