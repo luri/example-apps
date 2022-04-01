@@ -2,12 +2,12 @@ import luri from "./luri.js";
 
 let u = null;
 
-class AuthManager {;
+class AuthManager {
 
   login(user) {
     u = user;
 
-    luri.emit("logged-in", user);
+    luri.emit("LoggedIn", user);
   }
 
   logout() {
@@ -15,7 +15,7 @@ class AuthManager {;
 
     u = null;
     
-    luri.emit("logged-out", x);
+    luri.emit("LoggedOut", x);
   }
 
   logged() {

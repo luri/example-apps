@@ -93,9 +93,23 @@ class Luri {
   construct(input, namespace = null) {
     var props;
 
+    switch (typeof input) {
+      // most often it will be object so
+      // micro optimization
+      case "object":
+        break;
+      case "undefined":
+        input = "";
+      case "string":
+      case "number":
+        return document.createTextNode(input.toString());
+
+      case "function":
+        input = input();
+        break;
+    }
+
     switch (true) {
-      case typeof input === "string" || typeof input === "number":
-        return document.createTextNode(input);
       case input instanceof Element:
         return input;
       case input instanceof this.Promise:
@@ -139,23 +153,49 @@ class Luri {
   }
 
   emitTo(collection, event, ...data) {
-    var l = collection.length;
-    while (l--) {
-      let component = collection[l];
-
-      component.getListenersx(event).forEach(listener => listener.call(component, ...data));
+    if (typeof event === "string") {
+      event = this.event(event, ...data);
     }
 
-    return data;
+    var l = collection.length;
+    while (l--) {
+      // let component = collection[l];
+      // component.getListenersx(event).forEach(listener => listener.call(component, ...data));
+
+      collection[l].dispatchEvent(event);
+    }
+
+    return event.detail;
+  }
+
+  /**
+   * Constructs a CustomEvent
+   * @param {string} event 
+   * @param  {...any} data 
+   */
+  event(event, ...data) {
+    data.origin = this;
+
+    return new CustomEvent("x" + event.toLowerCase(), {
+      detail: data
+    });
   }
 
   promise(def, promise) {
     return def.promise = (e) => promise.then(def => {
-      this.replace(e, def)
+      if (Array.isArray(def)) {
+        def.forEach(def => this.append(def, e.parentNode));
+        e.remove();
+      } else {
+        this.replace(e, def)
+      }
     }), def;
   }
 
   append(def, element) {
+    if (Array.isArray(def)) {
+      return def.forEach(def => element.appendChild(this.construct(def)));
+    }
     return element.appendChild(this.construct(def));
   }
 
@@ -165,8 +205,8 @@ class Luri {
     return replacement;
   }
 
-  insert(def, element, before) {
-    return element.insertBefore(this.construct(def), before);
+  insert(def, element, before = null) {
+    return element.insertBefore(this.construct(def), before || element.firstChild || null);
   }
 
   helpers(host = this) {
@@ -208,9 +248,7 @@ export function register(constructor) {
     extends: parent
   } : undefined);
 
-  registerListeners(constructor);
-
-  return constructor;
+  return registerListeners(constructor);
 }
 
 export function registerListeners(constructor) {
@@ -238,8 +276,6 @@ function MixinComponent(base) {
    */
   class Component extends base {
 
-    static dgd() {}
-
     /**
      * Must return custom element nodeName
      * first argument to customElements.define
@@ -261,19 +297,23 @@ function MixinComponent(base) {
      */
     static handlersx = new Set;
 
-    eventsx = {};
+    // eventsx = {};
 
     constructor(props) {
       super();
+
+      this.initx(props);
 
       if ((props = this.constructx(props))) {
         luri.apply(this, props, this.namespaceURI);
       }
 
+      // kept for backwads compatibility
+      // will be removed at some point
       let listeners = this.listenersx();
-
       for (let event in listeners) {
-        this.addListenerx(event, listeners[event]);
+        // this.addListenerx(event, listeners[event]);
+        this.addEventListener("x" + event, listeners[event]);
       }
 
       if (!this.ninjax()) {
@@ -285,6 +325,14 @@ function MixinComponent(base) {
       this.constructor.handlersx.forEach(prop => {
         this.addEventListener(prop.substring(2).toLowerCase(), this.constructor.prototype[prop]);
       });
+    }
+
+    /**
+     * This gets called before constructx
+     * @param {*} props 
+     */
+    initx(props) {
+
     }
 
     /**
@@ -320,24 +368,21 @@ function MixinComponent(base) {
     }
 
     /**
-     * Utility method for defining listeners 
+     * Utility method for defining listeners
+     * @deprecated Use onX* functions. listenerx() will be removed at some point.
      */
     listenersx() {
       return {}
     }
 
-    getListenersx(event) {
-      return this.eventsx[event] || [];
-    }
-
-    addListenerx(event, listener) {
-      let listeners = this.getListenersx(event)
-      listeners.push(listener);
-      this.eventsx[event] = listeners;
-    }
-
-    removeListenerx(event, listener) {
-      this.eventsx[event] = this.getListenersx(event).filter(l => l !== listener);
+    /**
+     * 
+     * @param {string} event 
+     * @param  {...any} data 
+     * @returns 
+     */
+    emit(event, ...data) {
+      return luri.emit(luri.event.call(this, event, ...data));
     }
   }
 

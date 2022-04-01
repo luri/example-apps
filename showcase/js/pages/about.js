@@ -81,14 +81,14 @@ export default class AboutPage extends Page {
             class: "text-xl text-center mt-4",
             html: "Purpose"
           }, {
-            html: "I'm definitely not aiming at replacing or rivalring existing frameworks. It's more like providing an alternative to anyone who feels the way I do. Luri is not well suited for mainstream production apps. It could perhaps be used in Electron apps or other environments where a modern JavaScript runtime is guaranteed. I mean, you could transpile it down to ES5 if you really wanted, but that'd be kind of defeating its purpose and in that case you'd probably be better off using another framework."
+            html: "I made this for myself. I'm not aiming at replacing or rivalring existing frameworks. It's more like providing an alternative to anyone who feels the way I do. Luri is not well suited for mainstream production apps. It could perhaps be used in Electron apps or other environments where a modern JavaScript runtime is guaranteed. I mean, you could transpile it down to ES5 if you really wanted, but that'd be kind of defeating its purpose and in that case you'd probably be better off using another framework."
           },
 
           {
             class: "text-xl text-center mt-4",
             html: "But, why?"
           }, {
-            html: "I don't really have a good answer ot this question. It started off as a joke and a small utility library and it grew to the point where I'm creating moderately complex applications with it. Decided to share it with the world."
+            html: "I don't really have a good answer to this question. It started off as a joke and a small utility library and it grew to the point where I'm creating moderately complex applications with it. Decided to share it with the world."
           },
 
           {

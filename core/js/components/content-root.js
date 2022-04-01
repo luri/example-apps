@@ -87,10 +87,8 @@ export default class ContentRoot extends Component() {
     return props;
   }
 
-  listenersx() {
-    return {
-      "content-rendered": this.renderedx
-    }
+  onXContentRendered(event) {
+    this.renderedx(...event.detail);
   }
 
   /**
@@ -174,11 +172,11 @@ export default class ContentRoot extends Component() {
       await loader;
     }
 
-    luri.emit("content-render", route, path, query, content, this);
+    luri.emit("ContentRender", route, path, query, content, this);
 
     return this.renderx(content).then(async content => {
       // wait for other content roots that might still be rendering
-      let [, , , , , queue] = luri.emit("content-rendered", route, path, query, content, this, []);
+      let [, , , , , queue] = luri.emit("ContentRendered", route, path, query, content, this, []);
       await Promise.all(queue);
 
       return this.endnavx(content);
@@ -207,7 +205,7 @@ export default class ContentRoot extends Component() {
     }
 
     let content = null;
-
+    
     if (this.cacheContentx()) {
       let id = contentClass.idx(query);
       
@@ -253,6 +251,8 @@ export default class ContentRoot extends Component() {
   }
 
   renderedx(route, path, query, content, root, queue) {
+    // console.log("RENDERED", route);
+
     // TODO this needs investigation and possibly rework
     if (root !== this && root.contains(this) && !this.navingx) {
       queue.push(this.navigatex(route));

@@ -4,7 +4,10 @@ export function delay(ms) {
   return new Promise(resolve => setTimeout(resolve, ms));
 }
 
-export function navigate(path) {
+export function navigate(path, query) {
+  if (query) {
+    path += ":" + JSON.stringify(query);
+  }
   window.location.hash = path;
 }
 

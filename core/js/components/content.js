@@ -1,8 +1,8 @@
 import luri, { Component } from "../lib/luri.js";
 import Animatable from "./animatable.js";
 
-class ContentComponent extends Component() {}
-class AnimatableContentComponent extends Animatable(ContentComponent) {}
+// class ContentComponent extends Component() {}
+// class AnimatableContentComponent extends Animatable(ContentComponent) {}
 
 /**
  * Currently, intelliSense has trouble picking up all members of 
@@ -15,22 +15,31 @@ class AnimatableContentComponent extends Animatable(ContentComponent) {}
  * https://github.com/microsoft/vscode/issues/109375
  */
 
+// /**
+//  * @extends {ContentComponent}
+//  * @implements {AnimatableContentComponent}
+//  */
+// class Content extends AnimatableContentComponent {
 /**
- * @extends {ContentComponent}
- * @implements {AnimatableContentComponent}
+ * @property {any} queryx
  */
-class Content extends AnimatableContentComponent {
+class Content extends Component(Animatable(HTMLElement)) {
 
   // static parentx() {
   //   return "div";
   // }
 
-  constructx(props) {
+  initx(props) {
     this.queryx = props;
-    
+  }
+
+  constructx(props) {
     return this.propsx();
   }
   
+  /**
+   * @deprecated use constructx()
+   */
   propsx() {
     return {
       // id: this.idx()
@@ -47,7 +56,7 @@ class Content extends AnimatableContentComponent {
 
   contentx(data) {
     return [
-      "*Cricket Sounds"
+      "*Cricket Sounds*"
     ];
   }
 

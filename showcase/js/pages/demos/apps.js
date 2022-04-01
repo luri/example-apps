@@ -13,14 +13,15 @@ export default class AppsExample extends Example {
           html: [
             P({
               class: "text-lg",
-              html: "Here are a few of simple apps I made for reference and reverse-engineering."
+              html: "Here are a few simple apps I made for reference and reverse-engineering."
             }),
 
             {
               class: "flex flex-col mt-6",
               html: [
                 ["Todos", "The mandatory, for any SPA, TODO app", "../todos"],
-                ["Ledger", "A modern version of the legacy ledger app", "../ledger"]
+                ["Ledger", "A modern version of the legacy ledger app", "../ledger"],
+                ["CRUD", "Sample app that demonstrates the dynamic CRUD table component", "../crud"]
               ].map(([title, desc, href]) => {
                 return {
                   node: "a",

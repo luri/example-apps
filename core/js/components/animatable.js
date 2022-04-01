@@ -1,7 +1,8 @@
 import { animate } from "../lib/util.js";
 
 export default function Animatable(base) {
-  return class extends base {
+  
+  return class Animatable extends base {
     animinx(prev) {
       return "fadeIn";
     }

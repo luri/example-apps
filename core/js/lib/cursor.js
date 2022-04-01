@@ -10,6 +10,7 @@ export default class Cursor {
   constructor(url, pointer = 1) {
     this.url = url;
     this.pointer = pointer;
+    this.web = web;
   }
 
   update(old, data) {
@@ -30,7 +31,11 @@ export default class Cursor {
     });
   }
 
+  setWeb(web) {
+    this.web = web;
+  }
+
   execute(url) {
-    return web.request(url);
+    return this.web.request(url);
   }
 }

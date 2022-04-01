@@ -132,10 +132,12 @@ export default class Modal extends Component(Animatable(HTMLElement)) {
     );
 
     return promise.then(result => {
+      return smoothie(result, placeholder);
+    }).then(() => {
       modal.classList.remove("t-800");
-      
-      return result ? smoothie(result, placeholder) : modal.closex();
-    }).then(() => modal);
+
+      return modal;
+    });
   }
 
   constructor(body, options) {

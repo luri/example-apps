@@ -82,7 +82,7 @@ class Web {
   /**
    * Perform a web request.
    * @param {string} uri Endpoint
-   * @param {object} options An options object to pass to fetch() except a custom data property is introduced which must be a plain object or FormData instance.
+   * @param {RequestInit} options An options object to pass to fetch() except a custom data property is introduced which must be a plain object or FormData instance.
    */
   request(uri, options = {}) {
     Object.assign(options, this.options());
@@ -219,4 +219,5 @@ class Web {
 
 let web = new Web();
 
+export { Web };
 export default web;

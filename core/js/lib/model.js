@@ -8,6 +8,7 @@ let docroot = document.body;
 
 export default class Model {
 
+  static targetselector = "T";
   static anyselector = "X";
   static htmlx = false;
 
@@ -17,7 +18,11 @@ export default class Model {
 
   static handlerx = {
     get: function (model, prop, receiver) {
-      return model.get(prop);
+      if (model.constructor.prototype[prop]) {
+        return model[prop].bind(model);
+      } else {
+        return model.get(prop);
+      }
     },
     set: function (model, property, value) {
       model.set(property, value);
@@ -50,9 +55,11 @@ export default class Model {
   }
 
   get(prop) {
+    if (prop === this.constructor.targetselector)
+      return this.target;
     if (prop === this.constructor.anyselector)
       prop = "*";
-    return this.target[prop] instanceof Object ? this.target[prop] : new ModelProperty(this, prop);
+    return new ModelProperty(this, prop);
   }
 
   set(property, value) {
@@ -69,7 +76,6 @@ export default class Model {
     return this.collections.get(property);
   }
 }
-
 
 class ModelProperty {
 
@@ -107,12 +113,16 @@ class ModelProperty {
   }
 
   toString() {
-    return this.binding.model.value(this.html);
+    return this.binding.model.value(this.html).toString();
   }
 
   valueOf() {
     return this.binding.model.value(this.html);
   }
+
+  // [Symbol.toPrimitive](hint) {
+  //   // probably gonna need this in future
+  // }
 }
 
 /**
@@ -227,20 +237,21 @@ export class DataBinding {
   }
 }
 
-
+let i = 0;
 // watch the dom for bound elements
 new MutationObserver(function (mutations) {
-  for (let record of mutations) {
-    for (let node of record.addedNodes) {
+  for (let record of mutations) { i++;
+    for (let node of record.addedNodes) { i++;
       if (node instanceof HTMLElement) {
-        for (let bound of node.getElementsByClassName("has-bindings")) {
-          for (let binding of bound.bindingsx) {
+        for (let bound of node.getElementsByClassName("has-bindings")) { i++;
+          for (let binding of bound.bindingsx) { i++;
             binding.sync(bound);
           }
         }
       }
     }
   }
+  console.log(i);
 }).observe(document.body, { childList: true, subtree: true });
 
 
