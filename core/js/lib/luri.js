@@ -313,7 +313,7 @@ function MixinComponent(base) {
       let listeners = this.listenersx();
       for (let event in listeners) {
         // this.addListenerx(event, listeners[event]);
-        this.addEventListener("x" + event, listeners[event]);
+        this.addEventListener("x" + event, e => listeners[event].apply(this, e.detail || []));
       }
 
       if (!this.ninjax()) {
