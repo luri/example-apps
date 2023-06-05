@@ -1,5 +1,5 @@
 import Animatable from "../../../core/js/components/animatable.js";
-import { shrink } from "../../../core/js/lib/classlist.js";
+import { shrink } from "../lib/classlist.js";
 import { Component, register } from "../../../core/js/lib/luri.js";
 import { smoothie } from "../../../core/js/lib/util.js";
 import { ButtonPrimary, ButtonSecondary } from "../styles/common.js";

@@ -1,4 +1,4 @@
-import Application from "./components/app.js";
+import Application from "./components/roots/app.js";
+import { smoothie } from "./lib/util.js";
 
-document.body.innerHTML = "";
-document.body.append(new Application);
+smoothie(new Application, document.body.firstElementChild);

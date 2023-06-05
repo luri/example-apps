@@ -1,4 +1,4 @@
-import { shrink } from "../../../core/js/lib/classlist.js";
+import { shrink } from "../lib/classlist.js";
 
 let colors = {
   primary: "purple",

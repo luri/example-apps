@@ -1,7 +1,6 @@
-import { register } from "../../../core/js/lib/luri.js";
-import { delay } from "../../../core/js/lib/util.js";
-import Page from "../components/page.js";
-import { Heading, HeadingParagraph } from "../styles/common.js";
+import { register } from "../../../../core/js/lib/luri.js";
+import { delay } from "../../../../core/js/lib/util.js";
+import Page from "../page.js";
 
 
 export default class HomePage extends Page {
@@ -21,7 +20,7 @@ export default class HomePage extends Page {
   // Make sure image is loaded so we don't get
   // a choppy animation on first load
   async datax() {
-    // await delay(14000);
+    await delay(5000);
 
     return new Promise((resolve, reject) => {
       const img = new Image();

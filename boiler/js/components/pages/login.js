@@ -1,9 +1,9 @@
-import auth from "../../../core/js/lib/auth.js";
-import { register } from "../../../core/js/lib/luri.js";
-import AppForm from "../components/form.js";
-import { AppInput } from "../components/input.js";
-import Page from "../components/page.js";
-import { ButtonPrimary } from "../styles/common.js";
+import auth from "../../../../core/js/lib/auth.js";
+import { register } from "../../../../core/js/lib/luri.js";
+import AppForm from "../form.js";
+import { AppInput } from "../input.js";
+import Page from "../page.js";
+import { ButtonPrimary } from "../../styles/common.js";
 
 class LoginForm extends AppForm {
   onsuccessx(data) {

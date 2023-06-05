@@ -1,5 +1,5 @@
-import luri, { register } from "../../../core/js/lib/luri.js";
-import AppContentRoot from "./app-content-root.js";
+import luri, { register } from "../../../../core/js/lib/luri.js";
+import AppContentRoot from "../app-content-root.js";
 
 export default class Application extends AppContentRoot {
 
@@ -24,16 +24,12 @@ export default class Application extends AppContentRoot {
   }
 
   connectedCallback() {
-    // navigate home when mounted
-    this.navigatex();
+    // navigate when mounted
+    this.onHashChange();
   }
-
-  listenersx() {
-    return {
-      "logged-in": () => this.navigatex(),
-      "logged-out": () => this.navigatex(),
-      "hash-change": this.navigatex,
-    }
+  
+  onHashChange() {
+    this.navigatex(Application.hash().substring(1));
   }
 
   getContentRootElementx() {
@@ -52,22 +48,12 @@ export default class Application extends AppContentRoot {
     document.title = title;
   }
 
-  navigatex(route = window.location.hash.substring(1)) {
-    return super.navigatex(route).then(page => {
-      if (page) {
-        luri.emit("page-rendered", route, page);
-      }
-
-      return page;
-    });
-  }
-
   renderx(content) {
     return super.renderx(content).then(content => {
       try {
         this.titlex(content.titlex());
       } catch (e) {
-        this.titlex(undefined);
+        this.titlex();
       }
       return content;
     });
@@ -79,7 +65,7 @@ export default class Application extends AppContentRoot {
       html: [
         {
           class: "flex justify-center items-center flex-1",
-          html: new (this.blankContentx()),
+          html: {},
         },
       ]
     };
@@ -92,7 +78,7 @@ register(Application);
  * Global navigation event listener
  */
 window.onhashchange = function (event) {
-  luri.emit("hash-change", window.location.hash.substring(1), event);
+  luri.emit("HashChange", window.location.hash.substring(1), event);
 }
 
 window.hash = Application.hash;
