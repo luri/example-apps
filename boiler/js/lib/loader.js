@@ -1,14 +1,17 @@
-let type = "puff";
+/**
+ * Loaders from https://github.com/SamHerbert/SVG-Loaders
+ */
 
 /**
  * Returns a loader definition.
  * 
  * @param {number} size 
  * @param {string} classes
+ * @param {string} type
  */
-export default function loader(size = 32, classes = "") {
+export default function loader(size = 32, classes = "", type = "puff") {
   return {
-    class: classes,
+    class: classes || "text-prim-500",
     html: [
       {
         class: `w-${size} h-${size} mx-auto`,

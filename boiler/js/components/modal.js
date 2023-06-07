@@ -1,12 +1,9 @@
-import Animatable from "../../../core/js/components/animatable.js";
-import { shrink } from "../../../core/js/lib/classlist.js";
+
 import { Component, register } from "../../../core/js/lib/luri.js";
-import { smoothie } from "../../../core/js/lib/util.js";
-import { ButtonPrimary, ButtonSecondary } from "../styles/common.js";
-import { AppInput } from "./input.js";
-import apploader from "./loader.js";
-
-
+import loader from "../lib/loader.js";
+import { smoothie } from "../lib/util.js";
+import Animatable from "../mixins/animatable.js";
+import Button, { Input } from "./input.js";
 
 export default class Modal extends Component(Animatable(HTMLElement)) {
 
@@ -69,7 +66,7 @@ export default class Modal extends Component(Animatable(HTMLElement)) {
           body,
           options.input ? options.input(resolve, reject) : {
             node: "form",
-            html: new AppInput(null, options.type || "text", options.value || "", options.attrs || {}),
+            html: new Input(null, options.type || "text", options.value || "", options.attrs || {}),
             onsubmit: event => {
               event.preventDefault();
               resolve(event.target.elements[0].value);
@@ -92,39 +89,35 @@ export default class Modal extends Component(Animatable(HTMLElement)) {
    * @param {ModalConfirmOptions} options 
    */
   static confirmx(body, options = {}) {
-    return this.promptx(body, Object.assign({
+    return this.promptx(typeof body === "string" ? {
+      class: "mb-4",
+      html: body
+    } : body, Object.assign({
       rejectOnClose: true,
       input: (resolve, reject) => {
         return {
-          class: "flex justify-center mt-2",
+          class: "flex justify-center",
           html: [
-            [options.cancelText || "Cancel", ButtonSecondary, reject],
-            [options.confirmText || "Confirm", ButtonPrimary, resolve]
+            [options.cancelText || "Cancel", "button-sec m-0 flex-1", reject],
+            [options.confirmText || "Confirm", "button-prim m-0 flex-1", resolve]
           ].map(([def, classname, func]) => {
-            return {
-              node: "button",
+            return new Button({
               class: classname,
               html: def,
               onclick: func
-            }
+            })
           })
         }
       }
     }, options))
   }
 
-  /**
-   * Open a new modal
-   * @param {*} body
-   * @param {ModalOptions} options
-   * @returns {Promise<Modal>}
-   */
   static async loadx(promise, options) {
     let placeholder = null;
     let modal = await this.openx(
       {
         class: "px-16 py-12",
-        html: apploader(),
+        html: loader(),
         ref: e => placeholder = e
       }, Object.assign({
         unclosable: true
@@ -169,16 +162,12 @@ export default class Modal extends Component(Animatable(HTMLElement)) {
 
   constructx(props) {
     return {
-      class: shrink(`
-        fixed top-0 left-0 w-full h-full
-        flex justify-center items-center
-        ${props.unclosable ? "t-800" : ""}
-      `),
+      class: `fixed top-0 left-0 w-full h-full flex justify-center items-center ${props.unclosable ? "t-800" : ""}`,
       style: {
         "background": this.constructor.backgroundx
       },
       html: props.defaultBody ? {
-        class: "rounded bg-gray-800 border border-gray-700 px-6 py-4",
+        class: "rounded bg-sec-800 border border-sec-700 px-6 py-4",
         html: props.body
       } : props.body
     }
