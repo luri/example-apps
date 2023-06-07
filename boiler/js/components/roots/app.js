@@ -1,27 +1,8 @@
 import luri, { register } from "../../../../core/js/lib/luri.js";
-import AppContentRoot from "../app-content-root.js";
+import { lochash, navigate } from "../../lib/util.js";
+import AppContentRoot from "./app-content-root.js";
 
 export default class Application extends AppContentRoot {
-
-  /**
-   * Generates a hash uri
-   * 
-   * @param {string} path path of resource
-   * @param {any} data query
-   */
-  static hash(path = window.location.hash.substring(1), data = null) {
-    if (data) {
-      let string = JSON.stringify(data);
-
-      if (!Application.queryStrictJSON && string[0] === '"') {
-        string = string.substring(1, string.length - 1);
-      }
-
-      return `#${path}:${string}`;
-    }
-
-    return "#" + path;
-  }
 
   connectedCallback() {
     // navigate when mounted
@@ -29,7 +10,18 @@ export default class Application extends AppContentRoot {
   }
   
   onHashChange() {
-    this.navigatex(Application.hash().substring(1));
+    super.navigatex(lochash());
+  }
+
+  /**
+   * This performs navigation indirectly by changing
+   * the location hash, so it returns nothing
+   * @param {*} route 
+   * @param {*} query 
+   * @returns {undefined}
+   */
+  navigatex(route, query) {
+    navigate(route, query);
   }
 
   getContentRootElementx() {
@@ -61,7 +53,7 @@ export default class Application extends AppContentRoot {
 
   constructx() {
     return {
-      class: "flex flex-col h-full w-full bg-gray-900 text-gray-500 overflow-y-auto overflow-x-hidden",
+      class: "flex flex-col h-full w-full bg-sec-900 text-sec-500 overflow-y-auto overflow-x-hidden",
       html: [
         {
           class: "flex justify-center items-center flex-1",
@@ -80,5 +72,3 @@ register(Application);
 window.onhashchange = function (event) {
   luri.emit("HashChange", window.location.hash.substring(1), event);
 }
-
-window.hash = Application.hash;

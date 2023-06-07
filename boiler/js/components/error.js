@@ -1,7 +1,8 @@
-import { register } from "../../../../core/js/lib/luri.js";
-import Page from "../page.js";
+import { Component, register } from "../../../core/js/lib/luri.js";
+import Animatable from "../mixins/animatable.js";
 
-export default class ErrorPage extends Page {
+export default class ErrorView extends Animatable(Component()) {
+
   titlex() {
     return "Error";
   }
@@ -11,7 +12,7 @@ export default class ErrorPage extends Page {
       class: "flex flex-col items-center text-center",
       html: [
         {
-          class: "relative inline-block p-16 m-10 bg-gray-800 rounded-full text-6xl text-red-700 font-bold border-red-800 border-solid border-2 shadow-lg",
+          class: "relative inline-block p-16 m-10 bg-sec-800 rounded-full text-6xl text-fail-700 font-bold border-fail-800 border-solid border-2 shadow-lg",
           html: [
             {
               class: "absolute left-0 top-0 w-full h-full flex justify-center items-center",
@@ -20,15 +21,15 @@ export default class ErrorPage extends Page {
           ]
         },
         H1({
-          class: "text-2xl font-weight-bold px-6 py-3",
+          class: "text-2xl font-bold px-6 py-3",
           html: "Error"
         }),
         P({
-          class: "text-gray-600",
+          class: "text-sec-500",
           html: props.message
         }),
       ]
     }
   }
 }
-register(ErrorPage);
+register(ErrorView);

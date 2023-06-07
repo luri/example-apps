@@ -1,5 +1,6 @@
 import { register } from "../../../../core/js/lib/luri.js";
 import { delay } from "../../../../core/js/lib/util.js";
+import Modal from "../modal.js";
 import Page from "../page.js";
 
 
@@ -20,14 +21,14 @@ export default class HomePage extends Page {
   // Make sure image is loaded so we don't get
   // a choppy animation on first load
   async datax() {
-    await delay(5000);
-
+    // await delay(5000);
+    
     return new Promise((resolve, reject) => {
       const img = new Image();
       img.addEventListener("load", () => resolve(img));
       img.addEventListener("error", reject);
       img.style = "filter: drop-shadow(0px 0px 10px #8a55c4);";
-      img.src = "https://avatars0.githubusercontent.com/u/30749236?s=400&u=c0af321f891fb3e9799df6190122805c7cd6685d&v=4";
+      img.src = "https://avatars0.githubusercontent.com/u/30749236";
     });
   }
 
@@ -38,7 +39,7 @@ export default class HomePage extends Page {
         {
           class: "w-8/12 md:w-full text-center",
           html: image
-        }
+        },
       ]
     }
   }

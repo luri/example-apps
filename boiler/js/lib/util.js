@@ -67,7 +67,13 @@ export function animate(element, animation) {
   });
 }
 
-export function generatelocationhash(path, query) {
+/**
+ * Generate or get current location hash string
+ * @param {*} path 
+ * @param {*} query 
+ * @returns {string} A hash string without leading #
+ */
+export function lochash(path = location.hash.substring(1), query) {
   if (query) {
     return path + ":" + JSON.stringify(query);
   }
@@ -75,7 +81,7 @@ export function generatelocationhash(path, query) {
 }
 
 export function navigate(path, query) {
-  window.location.hash = generatelocationhash(path, query);
+  location.hash = lochash(path, query);
 }
 
 /**

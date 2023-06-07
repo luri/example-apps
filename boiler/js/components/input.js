@@ -1,79 +1,109 @@
-import { Checkbox, Input, Radio, Select, Textarea } from "../../../core/js/components/input.js";
-import { register } from "../../../core/js/lib/luri.js";
-import { ButtonPrimary, CheckboxControl, CheckboxInput, InputControl } from "../styles/common.js";
+import * as core from "../../../core/js/components/input.js";
+import { Component, register } from "../../../core/js/lib/luri.js";
 
-
-export class AppInput extends Input {
+export class Input extends core.Input {
 
   constructx(props) {
-    this.className = InputControl;
+    props = Object.assign({
+      class: "input-control"
+    }, props);
+
+    return super.constructx(props);
+  }
+}
+register(Input);
+
+export class Select extends core.Select {
+
+  constructx(props) {
+    props = Object.assign({
+      class: "input-control"
+    }, props);
+
     return super.constructx(props);
   }
 
 }
-register(AppInput);
+register(Select);
 
-export class AppSelect extends Select {
+export class Textarea extends core.Textarea {
 
-  constructx(props) {
-    this.className = InputControl;
-    return super.constructx(props);
+  propsx() {
+    return {
+      class: "input-control"
+    }
   }
 
 }
-register(AppSelect);
+register(Textarea);
 
 
-export class AppTextarea extends Textarea {
-
-  constructx(props) {
-    this.className = InputControl;
-    return super.constructx(props);
-  }
-
-}
-register(AppTextarea);
-
-
-export class AppCheckbox extends Checkbox {
+export class AppCheckbox extends core.Checkbox {
 
   constructinputx(props) {
     return Object.assign({
-      class: CheckboxInput
+      class: "checkbox-input"
     }, super.constructinputx(props));
   }
 
   constructlabelx(props) {
     return Object.assign({
-      class: CheckboxControl
+      class: "checkbox-control"
     }, super.constructlabelx(props));
   }
 }
 register(AppCheckbox);
 
 
-export class AppRadio extends Radio {
-
-  constructlabelx(props) {
-    return Object.assign({
-      class: CheckboxControl
-    }, super.constructlabelx(props));
-  }
+export class AppRadio extends core.Radio {
 
   constructinputx(props) {
     return Object.assign({
-      class: `${CheckboxInput} rounded-full`
+      class: `checkbox-input rounded-full`
     }, super.constructinputx(props));
+  }
+
+  constructlabelx(props) {
+    return Object.assign({
+      class: "checkbox-control"
+    }, super.constructlabelx(props));
   }
 }
 register(AppRadio);
 
-export class AppSubmit extends Input {
+export class Submit extends Input {
 
   constructor(value, name, props) {
-    super(name, "submit", value, Object.assign({
-      class: `${ButtonPrimary} block w-full`
-    }, props));
+    super(name, "submit", value, props);
+  }
+
+  propsx() {
+    return {
+      class: `button-prim`
+    }
   }
 }
-register(AppSubmit);
+register(Submit);
+
+export default class Button extends Component(HTMLButtonElement) {
+
+  static parentx() {
+    return "button"
+  }
+
+  propsx(props) {
+    let className = props.primary ? "button-prim" : "button-sec";
+    if (props.block) {
+      className += " block w-full";
+    }
+
+    delete props.primary;
+    delete props.block;
+
+    return {
+      type: "button",
+      class: className
+    };
+  }
+}
+register(Button);

@@ -1,16 +1,16 @@
-import Form from "../../../core/js/components/form.js";
+import * as core from "../../../core/js/components/form.js";
 import luri, { register } from "../../../core/js/lib/luri.js";
-import apploader from "./loader.js";
+import loader from "../lib/loader.js";
 
-export default class AppForm extends Form {
+export default class Form extends core.default {
 
   loaderx() {
     this.classList.add("relative");
 
-    let classes = "form-loader absolute top-0 left-0 w-full h-full flex justify-center items-center bg-gray-800 opacity-75";
+    let classes = "form-loader absolute top-0 left-0 w-full h-full flex justify-center items-center bg-sec-800 opacity-75";
 
-    return luri.append(apploader(32, classes), this);
+    return luri.append(loader(32, classes), this);
   }
 
 }
-register(AppForm);
+register(Form);
